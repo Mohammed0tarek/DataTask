@@ -19,7 +19,7 @@ A comprehensive data pipeline leveraging Kafka, Confluent, and MySQL to ingest, 
 
 ## **Overview**
 
-This project was a simple task assigned to me during a hiring process for a startup.builds a complete data pipeline that:
+This project was a simple task assigned to me during a hiring process for a startup. I was assigned to build a complete data pipeline that:
 1. Ingests data using Kafka producers.
 2. Enforces schemas using Confluent's Schema Registry with Avro.
 3. Processes the data using Kafka consumers.
