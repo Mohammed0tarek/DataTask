@@ -55,26 +55,26 @@ This project was a simple task assigned to me during a hiring process for a star
 1. **Kafka Setup**:
    - Start Kafka brokers and Zookeeper.
    ```bash
-   bash /bin/zookeper-server-start.sh $KAFKA_HOME/config/zookeper.properties
-   bash /bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties
+   /bin/zookeper-server-start.sh $KAFKA_HOME/config/zookeper.properties
+   /bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties
    ```
    - Configure Kafka topics for data ingestion and processing.
    you can do it like this. we will create a topic called Transactions since this is the name we used.
    ```bash
-   bash kafka-topics.sh --bootstrap-server localhost:9092 --create --topic Transactions --partitions 1 --replication-factor 1
+   kafka-topics.sh --bootstrap-server localhost:9092 --create --topic Transactions --partitions 1 --replication-factor 1
    ```
 
 2. **Confluent Setup**:
    - Configure Confluent Schema Registry.
    After downloading the platform tarball use:
    ```bash
-   bash tar -xzf confluent-7.7.1.tar.gz
-   bash cd confluent-7.7.1
-   bash ./bin/schema-registry-start.sh /etc/schema-registry.properties
+   tar -xzf confluent-7.7.1.tar.gz
+   cd confluent-7.7.1
+   ./bin/schema-registry-start.sh /etc/schema-registry.properties
    ```
    - Set up Confluent API for Kafka topic management.
    ```bash
-   bash pip install confluent-kafka
+   pip install confluent-kafka
    ```
 3. **Avro Schema**:
    - Define and register Avro schemas for data validation.
@@ -83,10 +83,10 @@ This project was a simple task assigned to me during a hiring process for a star
    - Create the necessary database and tables for storing processed data.
    open mysql workbench or cli. For me I used the cli
    ```bash 
-   bash mysql -u root -p -h 127.0.0.1
+   mysql -u root -p -h 127.0.0.1
    ```
    I used the loopback address instead of localhost because for some reason it kept denying the access. 
-   Enter your password.
+   Enter your password. 
    If you don't have the database and it is you first time then use the sql script provided.
 
 5. **Run the Pipeline**:
@@ -99,9 +99,9 @@ This project was a simple task assigned to me during a hiring process for a star
 ## **Usage**
 1. **Run the Admin**:
    - This script creates the Database table and Kafka topic if they are not created
-   ```bash
-   python admin.py
-   ```
+     ```bash
+     python admin.py
+     ```
 2. **Run the Producer**:
    - Publish data using the Kafka producer:
      ```bash
