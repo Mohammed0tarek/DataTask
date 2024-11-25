@@ -39,30 +39,14 @@ if __name__ == "__main__":
         with open(file_path, mode='r', encoding='utf-8') as file:
             csv_reader = csv.DictReader(file)
             for row in csv_reader:
+                try:
+                    producer.produce(topic=topic_name, value=row, callback=delivery_report)
+                    producer.poll(0)  # Trigger the delivery report callback
+                    print("Message sent successfully!")
+                except Exception as e:
+                    print(f"Error producing message: {e}")
+                break  # Exit input loop to process the next row
 
-                while True:  # Handle user input for producing the row
-                    user_input = input("Type 'continue' to produce this row, 'skip' to skip, or 'exit' to stop: ").strip().lower()
-
-                    if user_input == 'continue':
-                        # Serialize the row as a JSON object and send it to Kafka
-                        try:
-                            producer.produce(topic=topic_name, value=row, callback=delivery_report)
-                            producer.poll(0)  # Trigger the delivery report callback
-                            print("Message sent successfully!")
-                        except Exception as e:
-                            print(f"Error producing message: {e}")
-                        break  # Exit input loop to process the next row
-
-                    elif user_input == 'skip':
-                        print("Skipping this row.")
-                        break  # Skip this row and move to the next
-
-                    elif user_input == 'exit':
-                        print("Exiting the producer process.")
-                        raise KeyboardInterrupt  # Gracefully exit the program
-
-                    else:
-                        print("Invalid input. Please type 'continue', 'skip', or 'exit'.")
     except KeyboardInterrupt:
         print("\nProducer closed by user. Exiting...")
     except Exception as e:
