@@ -40,7 +40,7 @@ if __name__ == "__main__":
     kafka_consumer.subscribe([topic_name])
 
     print(f"Subscribed to topic: {topic_name}")
-
+    counter= 0
     try:
         while True:
             msg = kafka_consumer.poll(1.0)  # Poll for new messages with a 1-second timeout
@@ -62,8 +62,10 @@ if __name__ == "__main__":
 
                 values = tuple(record[col].values[0] for col in record.columns)
                 db_cursor.execute(SQL_INSERT_STATEMENT, values)
-                db_connection.commit()
-
+                counter = counter +1
+                # Commit every 500 tranactions to avoid calling the connection too much.
+                if counter% 500 ==0:
+                    db_connection.commit()
     except KeyboardInterrupt:
         print("Consumer stopped by user.")
     except KafkaException as e:
@@ -71,6 +73,7 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"Unexpected error: {e}")
     finally:
+        db_connection.commit()
         print("Closing consumer...")
         kafka_consumer.close()
         print("Consumer closed.")

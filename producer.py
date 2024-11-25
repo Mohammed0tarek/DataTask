@@ -41,7 +41,7 @@ if __name__ == "__main__":
             for row in csv_reader:
                 try:
                     producer.produce(topic=topic_name, value=row, callback=delivery_report)
-                    producer.poll(0)  # Trigger the delivery report callback
+                    producer.poll(0.7)
                     print("Message sent successfully!")
                 except Exception as e:
                     print(f"Error producing message: {e}")
